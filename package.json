@@ -28,7 +28,8 @@
   "dependencies": {
     "puppeteer-core": "~2.0.0",
     "puppeteer-extra": "^3.1.9",
-    "puppeteer-extra-plugin-stealth": "^2.4.8",
+    "puppeteer-extra-plugin-adblocker": "^2.11.3",
+    "puppeteer-extra-plugin-stealth": "^2.4.9",
     "winston": "^3.2.1"
   },
   "devDependencies": {
