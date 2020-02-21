@@ -1,0 +1,33 @@
+version: '3.4'
+
+volumes:
+  minio-data:
+    driver: local
+
+services:
+  scraper:
+    build:
+      context: .
+      target: development
+    hostname: puppetmen
+    volumes:
+      - ./:/app
+    env_file: .env
+    command: npm start
+    depends_on: 
+      - minio
+    ports:
+      - 3000:3000
+      - 9229:9229
+
+  minio:
+    image: minio/minio:latest
+    hostname: minio
+    volumes:
+      - minio-data:/data
+    command: server --compat /data
+    environment:
+      MINIO_ACCESS_KEY: getyours
+      MINIO_SECRET_KEY: getyours
+    ports:
+      - 1111:9000

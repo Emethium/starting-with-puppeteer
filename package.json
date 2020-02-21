@@ -1,0 +1,54 @@
+{
+  "name": "starting-with-puppeteer",
+  "version": "0.0.1",
+  "description": "A Puppeteer introductory repository to be used as reference or inspiration",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --inspect=0.0.0.0 -w src/ src/index.js",
+    "debug": "nodemon --inspect-brk=0.0.0.0 -w src/ src/index.js",
+    "docs": "jsdoc -c jsdoc.json src/**/*.js src/*.js",
+    "docs:watch": "nodemon --exec \"jsdoc -c jsdoc.json src/**/*.js src/*.js && http-server -p 2222 -c-1 docs/\" -w src/ src/index.js",
+    "commit": "git-cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Emethium/starting-with-puppeteer"
+  },
+  "author": "Emethium <nikolas.serafini@gmail.com>",
+  "private": true,
+  "contributors": [
+    "Emethium <nikolas.serafini@zrp.com.br>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Emethium/starting-with-puppeteer/issues"
+  },
+  "homepage": "https://github.com/Emethium/starting-with-puppeteer",
+  "dependencies": {
+    "puppeteer-core": "~2.0.0",
+    "puppeteer-extra": "^3.1.9",
+    "puppeteer-extra-plugin-stealth": "^2.4.8",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.0.2",
+    "docdash": "^1.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.2",
+    "nodemon": "^1.19.2",
+    "prettier": "^1.18.2",
+    "http-server": "^0.11.1",
+    "jsdoc": "^3.6.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
