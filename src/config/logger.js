@@ -1,7 +1,7 @@
 /**
  * Implements everything log related
  *
- * @module lib/logger
+ * @module config/logger
  */
 
 import { format, createLogger, transports } from "winston";

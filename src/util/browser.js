@@ -1,3 +1,9 @@
+/**
+ * Implements everything Puppeteer-launching related
+ *
+ * @module util/browser
+ */
+
 // Imports
 const puppeteer = require("puppeteer");
 const puppeteerExtra = require("puppeteer-extra");
