@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:google": "node -e 'require(\"./src/index\").scrapGoogle()'",
     "start": "nodemon --inspect=0.0.0.0 -w src/ src/index.js",
     "debug": "nodemon --inspect-brk=0.0.0.0 -w src/ src/index.js",
     "docs": "jsdoc -c jsdoc.json src/**/*.js src/*.js",

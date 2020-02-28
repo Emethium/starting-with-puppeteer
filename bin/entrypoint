@@ -3,12 +3,6 @@
 # Developed at ZRP <zrp@zrp.com.br>
 # All rights reserved - 2019
 #
-# Maintained by:
-#   Nikolas Serafini (nikolas.serafini@zrp.com.br)
-#   Pedro Gryzinsky (pedro.gryzinsky@zrp.com.br)
-#
-# Contact any of the above for further information
-#
 
 PURPLE='\033[0;35m'
 YELLOW='\033[1;33m'

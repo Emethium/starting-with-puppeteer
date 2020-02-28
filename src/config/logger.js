@@ -4,8 +4,7 @@
  * @module config/logger
  */
 
-import { format, createLogger, transports } from "winston";
-import { isProd, defaultMeta, logLevel } from "./service";
+const { format, createLogger, transports } = require("winston");
 
 /**
  * Creates a derived logger using winston.createLogger.
@@ -21,79 +20,62 @@ import { isProd, defaultMeta, logLevel } from "./service";
  * @constant
  */
 let opts = {
-  level: logLevel,
+  level: "silly",
   exitOnError: false
 };
 
-if (isProd) {
-  opts = { ...opts, defaultMeta };
-}
-
 const logger = createLogger(opts);
 
-//
-// If we're not in production then **ALSO** log to the `console`
-// with the colorized simple format.
-//
-if (isProd) {
-  logger.add(
-    new transports.Console({
-      format: format.json()
-    })
-  );
-} else {
-  const formatter = format.printf(msg => {
-    const { timeElapsed, error, timestamp, level, message } = msg;
+const formatter = format.printf(msg => {
+  const { timeElapsed, error, timestamp, level, message } = msg;
 
-    let out = `${timestamp} (${level}) - ${message}`;
+  let out = `${timestamp} (${level}) - ${message}`;
 
-    if (timeElapsed) out += ` (+${timeElapsed}ms)`;
-    if (error && error.stack) out += `\n\n${error.stack}\n`;
-    if (error && error.code) out += ` (${error.code})`;
+  if (timeElapsed) out += ` (+${timeElapsed}ms)`;
+  if (error && error.stack) out += `\n\n${error.stack}\n`;
+  if (error && error.code) out += ` (${error.code})`;
 
-    return out;
-  });
+  return out;
+});
 
-  // Error logs
-  logger.add(
-    new transports.File({
-      silent: false,
-      filename: "error.log",
-      level: "error",
-      format: format.combine(
-        format.uncolorize({ all: true }),
-        format.timestamp(),
-        formatter
-      )
-    })
-  );
+// Error logs
+logger.add(
+  new transports.File({
+    silent: false,
+    filename: "error.log",
+    level: "error",
+    format: format.combine(
+      format.uncolorize({ all: true }),
+      format.timestamp(),
+      formatter
+    )
+  })
+);
 
-  // Debug logs
-  logger.add(
-    new transports.File({
-      silent: false,
-      filename: "debug.log",
-      format: format.combine(
-        format.uncolorize({ all: true }),
-        format.timestamp(),
-        formatter
-      )
-    })
-  );
+// Debug logs
+logger.add(
+  new transports.File({
+    silent: false,
+    filename: "debug.log",
+    format: format.combine(
+      format.uncolorize({ all: true }),
+      format.timestamp(),
+      formatter
+    )
+  })
+);
 
-  // Console logs
-  logger.add(
-    new transports.Console({
-      format: format.combine(
-        format.colorize({ all: true }),
-        format.timestamp({
-          format: "DD-MM-YYYY HH:mm:ss"
-        }),
-        formatter
-      )
-    })
-  );
-}
+// Console logs
+logger.add(
+  new transports.Console({
+    format: format.combine(
+      format.colorize({ all: true }),
+      format.timestamp({
+        format: "DD-MM-YYYY HH:mm:ss"
+      }),
+      formatter
+    )
+  })
+);
 
-export { logger };
-export default logger;
+module.exports = { logger };
