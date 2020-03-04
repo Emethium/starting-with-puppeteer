@@ -5,15 +5,15 @@ volumes:
     driver: local
 
 services:
-  scraper:
+  scrapper:
     build:
       context: .
       target: development
-    hostname: puppetmen
+    hostname: scrapper
     volumes:
       - ./:/app
     env_file: .env
-    command: npm start
+    command: npm run test:google
     depends_on: 
       - minio
     ports:

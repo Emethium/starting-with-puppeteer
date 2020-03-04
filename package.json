@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:google": "node -e 'require(\"./src/index\").scrapGoogle()'",
     "start": "nodemon --inspect=0.0.0.0 -w src/ src/index.js",
     "debug": "nodemon --inspect-brk=0.0.0.0 -w src/ src/index.js",
     "docs": "jsdoc -c jsdoc.json src/**/*.js src/*.js",
@@ -26,9 +27,12 @@
   },
   "homepage": "https://github.com/Emethium/starting-with-puppeteer",
   "dependencies": {
+    "aws-sdk": "^2.628.0",
     "puppeteer-core": "~2.0.0",
     "puppeteer-extra": "^3.1.9",
-    "puppeteer-extra-plugin-stealth": "^2.4.8",
+    "puppeteer-extra-plugin-adblocker": "^2.11.3",
+    "puppeteer-extra-plugin-stealth": "^2.4.9",
+    "uuid": "^7.0.1",
     "winston": "^3.2.1"
   },
   "devDependencies": {
@@ -41,10 +45,10 @@
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.2",
+    "http-server": "^0.12.1",
+    "jsdoc": "^3.6.3",
     "nodemon": "^1.19.2",
-    "prettier": "^1.18.2",
-    "http-server": "^0.11.1",
-    "jsdoc": "^3.6.3"
+    "prettier": "^1.18.2"
   },
   "config": {
     "commitizen": {
