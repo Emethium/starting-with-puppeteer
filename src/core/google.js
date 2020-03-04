@@ -88,9 +88,9 @@ async function scrap(page, searchTerm) {
     // Extracts search data
     const results = await extractSearchResults(page);
 
-    logger.info("Completed without errors")
+    logger.info("Completed without errors");
 
-    return results
+    return { results, perf };
   } catch (error) {}
 }
 

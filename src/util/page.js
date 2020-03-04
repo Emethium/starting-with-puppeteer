@@ -6,7 +6,8 @@
  *
  */
 
-const logger = require("../config/logger");
+const { logger } = require("../config/logger");
+const { uploadFile } = require("./upload")
 
 /**
  * Takes a screenshot of the provided page
