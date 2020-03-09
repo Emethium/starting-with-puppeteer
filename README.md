@@ -26,7 +26,6 @@ All the code here is separated by context modules with their own set of awesome 
 
 - **Logger**: Custom logger configured using `Winston`. I quite like it, feel free to use as well.
 
-
 ## Building the image
 
 - Run `docker build -t starting-with-puppeteer:latest .`
@@ -37,3 +36,5 @@ All the code here is separated by context modules with their own set of awesome 
 - Create your own `.env` following the variables defined on the `.env.example`
 - Run `docker-compose up scrapper`
 - Profit
+
+> You can check all the taken snapshots on Minio, accessible by accessing `localhost:1111/minio/bucket/` on your local machine.

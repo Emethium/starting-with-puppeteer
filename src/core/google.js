@@ -13,7 +13,7 @@ async function loadPage(page) {
 
   const start = measureTimeElapsed();
 
-  await page.goto("https://www.google.com/", {
+  await page.goto("https://www.google.com/?gl=us&hl=en", {
     waitUntil: ["load"]
   });
 
@@ -27,7 +27,7 @@ async function loadPage(page) {
 async function fillForm(page, searchTerm) {
   const start = measureTimeElapsed();
 
-  const inputField = await page.$("[title=Pesquisar]");
+  const inputField = await page.$("[title=Search]");
   await inputField.type(searchTerm, { delay: 100 });
 
   const timeElapsed = measureTimeElapsed(start);
@@ -54,16 +54,19 @@ async function submitForm(page) {
 async function extractSearchResults(page) {
   const rawResults = await page.$("[id=search] > div > [data-async-context]");
   // We only care for the text result with links
-  const filteredResults = await rawResults.$$eval(".g", results =>
-    Array.from(results).map(r => r.innerText)
+  const filteredResults = await rawResults.$$eval(".g:not(.g-blk)", results =>
+    Array.from(results)
+      .map(r => r.innerText)
+      .filter(r => r !== "")
   );
 
   const parsedResults = filteredResults.map(fr => {
     const splittedData = fr.split("\n");
     return {
       resultTitle: splittedData[1],
-      resultLink: splittedData[2],
-      resultDescription: splittedData[3]
+      resultHeader: splittedData[2],
+      resultDescription: splittedData[3],
+      resultFooter: splittedData[4]
     };
   });
 
@@ -76,14 +79,15 @@ async function scrap(page, searchTerm) {
   try {
     // Load Google's main page
     perf["firstPage"] = await loadPage(page);
-    // await takeSnapshot(page, { context: searchTerm, fullPage: true });
+    await takeSnapshot(page, { fullPage: true });
 
     // Fills form with the search term provided
     perf["fillForm"] = await fillForm(page, searchTerm);
-    // await takeSnapshot(page, { context: searchTerm, fullPage: true });
+    await takeSnapshot(page, { fullPage: true });
 
     // Submits form and waits for page transition
     perf["submitForm"] = await submitForm(page);
+    await takeSnapshot(page, { fullPage: true });
 
     // Extracts search data
     const results = await extractSearchResults(page);
