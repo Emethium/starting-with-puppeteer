@@ -94,7 +94,7 @@ async function scrap(page, searchTerm) {
 
     logger.info("Completed without errors");
 
-    return results;
+    return { results, perf };
   } catch (error) {}
 }
 

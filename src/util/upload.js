@@ -7,10 +7,11 @@
 
 // Imports
 const S3 = require("aws-sdk").S3;
-const uuidv4 = require("uuid/v4");
+const { v4: uuidv4 } = require("uuid");
 
 // Local imports
-const logger = require("../config/logger");
+const bucket = process.env.BUCKET
+const { logger } = require("../config/logger");
 const { measureTimeElapsed } = require("./time");
 
 /**
@@ -30,7 +31,7 @@ const { measureTimeElapsed } = require("./time");
  */
 async function uploadFile(buffer, { contentType, ext } = {}) {
   // Halt execution if no bucket is configured
-  if (!bucket || bypassFileUpload) {
+  if (!bucket) {
     logger.warn(
       "An upload destination was not provided, ignoring file upload...",
       { category: "file-upload" }

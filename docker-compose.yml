@@ -9,7 +9,7 @@ services:
     build:
       context: .
       target: development
-    hostname: puppetmen
+    hostname: scrapper
     volumes:
       - ./:/app
     env_file: .env
