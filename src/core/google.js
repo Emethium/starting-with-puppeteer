@@ -79,15 +79,15 @@ async function scrap(page, searchTerm) {
   try {
     // Load Google's main page
     perf["firstPage"] = await loadPage(page);
-    // await takeSnapshot(page, { fullPage: true });
+    await takeSnapshot(page, { fullPage: true });
 
     // Fills form with the search term provided
     perf["fillForm"] = await fillForm(page, searchTerm);
-    // await takeSnapshot(page, { fullPage: true });
+    await takeSnapshot(page, { fullPage: true });
 
     // Submits form and waits for page transition
     perf["submitForm"] = await submitForm(page);
-    // await takeSnapshot(page, { fullPage: true });
+    await takeSnapshot(page, { fullPage: true });
 
     // Extracts search data
     const results = await extractSearchResults(page);
