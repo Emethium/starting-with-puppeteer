@@ -17,7 +17,20 @@ services:
     depends_on: 
       - minio
     ports:
-      - 3000:3000
+      - 9229:9229
+
+  stealth-check:
+    build: 
+      context: .
+      target: development
+    hostname: stealth-check
+    volumes: 
+      - ./:/app
+    env_file: .env
+    command: npm run test:stealth
+    depends_on: 
+      - minio
+    ports: 
       - 9229:9229
 
   minio:
