@@ -5,51 +5,53 @@
  *
  */
 
-// Imports
-const puppeteerExtra = require("puppeteer-extra");
-const pluginStealth = require("puppeteer-extra-plugin-stealth");
-
 // Local imports
-const logger = require("../config/logger");
-const args = [
-  // Required for Docker version of Puppeteer
-  "--no-sandbox",
-  "--disable-setuid-sandbox",
-  // Disable GPU
-  "--disable-gpu",
-  // This will write shared memory files into /tmp instead of /dev/shm,
-  // because Docker’s default for /dev/shm is 64MB
-  "--disable-dev-shm-usage",
-];
-
+const { logger } = require("../config/logger");
+const { takeSnapshot } = require("./page");
 /**
  * Tests scrapper anonymity by hitting a bot test page and extracting the results
  *
  */
-async function verifyAnonymity() {
-  puppeteerExtra.use(pluginStealth());
+async function verifyAnonymity(page) {
+  logger.info("Running anonymity tests..", { category: "stealthCheck" });
 
-  const testsResults = await puppeteerExtra
-    .launch({ executablePath: "/usr/bin/chromium-browser", args })
-    .then(async browser => {
-      logger.info("Running anonymity tests..", { category: "stealthCheck" });
+  const intoliTest = await runIntoliTest(page);
+  const antoineTest = await runAntoineVastelTest(page);
 
-      const page = await browser.newPage();
+  logger.info("All tests ran succesfully", { category: "stealthCheck" });
 
-      await page.goto("https://bot.sannysoft.com", {
-        waitUntil: ["networkidle2"]
-      });
+  return { intoliTest, antoineTest };
+}
 
-      const intoliTests = await extractIntoliTests(page);
-      const fingerprintTests = await extractFingerprintTests(page);
+async function runAntoineVastelTest(page) {
+  logger.warn("Running Antoine Vastel test...", { category: "stealthCheck" });
 
-      await browser.close();
+  await page.goto("https://arh.antoinevastel.com/bots/areyouheadless", {
+    waitUntil: ["networkidle2"]
+  });
 
-      logger.info("All tests ran succesfully", { category: "stealthCheck" });
-      return intoliTests.concat(fingerprintTests);
-    });
+  await takeSnapshot(page, { fullPage: true });
 
-  return testsResults;
+  const result = await page.$eval(".success", el => el.innerText);
+
+  const status = result.includes("not") ? "failed" : "passed";
+
+  return { result, status };
+}
+
+async function runIntoliTest(page) {
+  logger.warn("Running Intoli test...", { category: "stealthCheck" });
+
+  await page.goto("https://bot.sannysoft.com", {
+    waitUntil: ["networkidle2"]
+  });
+
+  await takeSnapshot(page, { fullPage: true });
+
+  const intoliTests = await extractIntoliTests(page);
+  const fingerprintTests = await extractFingerprintTests(page);
+
+  return intoliTests.concat(fingerprintTests);
 }
 
 async function extractIntoliTests(page) {
