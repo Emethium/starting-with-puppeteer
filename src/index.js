@@ -1,20 +1,39 @@
-
 // Local imports
 const { logger } = require("./config/logger");
-const { initializePuppeteer, initializeExtraPuppeteer } = require("./util/browser")
-const scrap = require("./core/google")
+const {
+  initializePuppeteer,
+  initializeExtraPuppeteer
+} = require("./util/browser");
+const { verifyAnonymity } = require("./util/stealth");
+const scrap = require("./core/google");
 
 async function scrapGoogle() {
-  const browser = await initializePuppeteer()
-  const page = await browser.newPage()
+  const browser = await initializePuppeteer();
+  const page = await browser.newPage();
 
-  const result = await scrap(page, process.env.TERM)
-  
-  logger.info(result)
+  const result = await scrap(page, process.env.TERM);
 
-  process.exit(0)
+  await browser.close();
+
+  logger.info(result);
+
+  process.exit(0);
+}
+
+async function stealthChecker() {
+  const browser = await initializeExtraPuppeteer();
+  const page = await browser.newPage();
+
+  const result = await verifyAnonymity(page);
+
+  await browser.close();
+
+  logger.info(result);
+
+  process.exit(0);
 }
 
 module.exports = {
-  scrapGoogle
-}
+  scrapGoogle,
+  stealthChecker
+};
