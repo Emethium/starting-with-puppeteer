@@ -30,11 +30,18 @@ All the code here is separated by context modules with their own set of awesome 
 
 - Run `docker build -t starting-with-puppeteer:latest .`
 
-## Running the example
+## Running the scrapping example
 
 - Install all necessary dependencies with a `npm install`
 - Create your own `.env` following the variables defined on the `.env.example`
 - Run `docker-compose up scrapper`
 - Profit
 
-> You can check all the taken snapshots on Minio, accessible by accessing `localhost:1111/minio/bucket/` on your local machine.
+## Running the stealth checking example
+
+- Install all necessary dependencies with a `npm install`
+- Create your own `.env` following the variables defined on the `.env.example`
+- Run `docker-compose up stealth-check`
+- Profit
+
+> You can check all the taken snapshots on Minio, accessible by entering `localhost:1111/minio/bucket/` on your local machine.
