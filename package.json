@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/Emethium/starting-with-puppeteer",
   "dependencies": {
-    "aws-sdk": "^2.628.0",
+    "aws-sdk": "^2.814.0",
     "puppeteer-core": "~2.0.0",
     "puppeteer-extra": "^3.1.9",
     "puppeteer-extra-plugin-adblocker": "^2.11.3",
